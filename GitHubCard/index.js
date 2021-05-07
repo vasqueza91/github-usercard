@@ -1,8 +1,19 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+axios
+.get('https://api.github.com/users/vasqueza91')
+.then(res => {
+  console.log(res);
+})
+.catch(err => {
+  console.log(err);
+})
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +39,15 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
+  .then((res) => {
+    const users = res.data;
+    document.querySelector('.cards').append(gitHubCardMaker(users));
+  })
+})
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +68,48 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function gitHubCardMaker({avatar_url, html_url, name, bio, login, location, followers, following}){
+  const gCard = document.createElement('div');
+  const images = document.createElement('img');
+  const cInfo = document.createElement('div');
+  const names = document.createElement('h3');
+  const userName = document.createElement('p');
+  const locations = document.createElement('p');
+  const profile = document.createElement('p');
+  const links = document.createElement('a');
+  const followers1 = document.createElement('p');
+  const following1 = document.createElement('p');
+  const bioPara = document.createElement('p');
+
+  gCard.append(images);
+  gCard.append(cInfo);
+  gCard.append(names);
+  gCard.append(userName);
+  gCard.append(locations);
+  gCard.append(profile);
+  gCard.append(links);
+  gCard.append(followers1);
+  gCard.append(following1);
+  gCard.append(bioPara);
+
+  gCard.classList.add('card');
+  cInfo.classList.add('card-info');
+  names.classList.add('class-name');
+  userName.classList.add('username');
+
+  images.src = avatar_url;
+  names.textcontent = `${name}`;
+  userName.textcontent = `${login}`;
+  locations.textContent = `Location: ${location}`;
+  links.textContent = html_url;
+  followers1.textContent = `Following: ${followers}`;
+  following1.textContent = `Followers: ${following}`;
+  bioPara.textContent = `Bio: ${bio}`;
+
+  return gCard;
+
+}
 
 /*
   List of LS Instructors Github username's:
