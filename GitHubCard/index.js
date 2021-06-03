@@ -51,6 +51,9 @@ followersArray.forEach(user => {
   .catch(err => {
     console.log(err)
   })
+  .finally(() => {
+    console.log("Done")
+  })
 })
 
 /*
