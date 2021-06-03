@@ -9,7 +9,7 @@ import axios from 'axios';
 axios
 .get('https://api.github.com/users/vasqueza91')
 .then(res => {
-  console.log(res);
+  console.log(res.data);
 })
 .catch(err => {
   console.log(err);
@@ -28,6 +28,24 @@ axios
     and append the returned markup to the DOM as a child of .cards
 */
 
+function profile(user) {
+  axios.get(`https://api.github.com/users/${user}`)
+    .then((res) => {
+      const users = res.data;
+      document.querySelector('.cards').append(gitHubCardMaker(users));
+      console.log(res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    .finally(() => {
+      console.log("Done")
+    })
+  }
+  profile('vasqueza91')
+
+  
+
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -41,20 +59,24 @@ axios
 
 const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
-followersArray.forEach(user => {
-  axios.get(`https://api.github.com/users/${user}`)
-  .then((res) => {
-    const users = res.data;
-    document.querySelector('.cards').append(gitHubCardMaker(users));
-    console.log(res.data)
-  })
-  .catch(err => {
-    console.log(err)
-  })
-  .finally(() => {
-    console.log("Done")
-  })
-})
+followersArray.forEach(profile)
+
+// followersArray.forEach(user => {
+//   axios.get(`https://api.github.com/users/${user}`)
+//   .then((res) => {
+//     const users = res.data;
+//     document.querySelector('.cards').append(gitHubCardMaker(users));
+//     console.log(res.data)
+//   })
+//   .catch(err => {
+//     console.log(err)
+//   })
+//   .finally(() => {
+//     console.log("Done")
+//   })
+// })
+
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
