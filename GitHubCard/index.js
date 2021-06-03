@@ -46,6 +46,10 @@ followersArray.forEach(user => {
   .then((res) => {
     const users = res.data;
     document.querySelector('.cards').append(gitHubCardMaker(users));
+    console.log(res.data)
+  })
+  .catch(err => {
+    console.log(err)
   })
 })
 
@@ -69,10 +73,10 @@ followersArray.forEach(user => {
     </div>
 */
 
-function gitHubCardMaker({avatar_url, html_url, name, bio, login, location, followers, following}){
-  const gCard = document.createElement('div');
+function gitHubCardMaker({avatar_url, html_url, name, bio, login, location, followers, following, href }){
+  const gitHubCard = document.createElement('div');
   const images = document.createElement('img');
-  const cInfo = document.createElement('div');
+  const cardInfo = document.createElement('div');
   const names = document.createElement('h3');
   const userName = document.createElement('p');
   const locations = document.createElement('p');
@@ -82,32 +86,34 @@ function gitHubCardMaker({avatar_url, html_url, name, bio, login, location, foll
   const following1 = document.createElement('p');
   const bioPara = document.createElement('p');
 
-  gCard.append(images);
-  gCard.append(cInfo);
-  gCard.append(names);
-  gCard.append(userName);
-  gCard.append(locations);
-  gCard.append(profile);
-  gCard.append(links);
-  gCard.append(followers1);
-  gCard.append(following1);
-  gCard.append(bioPara);
+  links.href = href
 
-  gCard.classList.add('card');
-  cInfo.classList.add('card-info');
-  names.classList.add('class-name');
+  gitHubCard.appendChild(images);
+  gitHubCard.appendChild(cardInfo);
+  cardInfo.appendChild(names);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(locations);
+  cardInfo.appendChild(profile);
+  profile.appendChild(links);
+  cardInfo.appendChild(followers1);
+  cardInfo.appendChild(following1);
+  cardInfo.appendChild(bioPara);
+
+  gitHubCard.classList.add('card');
+  cardInfo.classList.add('card-info');
+  names.classList.add('name');
   userName.classList.add('username');
 
   images.src = avatar_url;
-  names.textcontent = `${name}`;
-  userName.textcontent = `${login}`;
+  names.textContent = `Name: ${name}`;
+  userName.textContent = `Profile: ${login}`;
   locations.textContent = `Location: ${location}`;
   links.textContent = html_url;
   followers1.textContent = `Following: ${followers}`;
   following1.textContent = `Followers: ${following}`;
   bioPara.textContent = `Bio: ${bio}`;
 
-  return gCard;
+  return gitHubCard;
 
 }
 
